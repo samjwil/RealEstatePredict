@@ -1,3 +1,4 @@
 # RealEstatePredict
 
-#TO BE RUN on Yelp and Trulia Data
+### Goal: Take in a state, output regions with good real estate market.
+
