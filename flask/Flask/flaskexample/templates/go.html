@@ -1,0 +1,51 @@
+<!doctype html>
+{% extends "master.html" %}
+{% block title %} | Additional Title Info. I changed this.{% endblock %}
+{% block content %}
+
+
+
+
+<div id="map-canvas"></div>
+
+
+<script type="text/javascript">
+
+function initialize() {
+  var points = {{query | safe}};
+  var sfBayCenter = new google.maps.LatLng(38, -122.237);
+  var myOptions = {
+    zoom: 8,
+    center: sfBayCenter,
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  }
+  var map = new google.maps.Map(document.getElementById("map-canvas"), myOptions);
+  var infowindow = new google.maps.InfoWindow();
+
+  for (var i=0; i<points.length; i++) {
+    // Define each point
+    var latlng = new google.maps.LatLng(points[i].lat, points[i].lng);
+
+    // Create marker
+    var marker = new google.maps.Marker({
+      position: latlng,
+      map: map,
+      title: points[i].name
+    });
+
+  }
+}
+
+function loadScript() {
+  var script = document.createElement("script");
+  script.type = "text/javascript";
+  script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDTLABfemojSm9rxvt8joDFgQzS9-mKiI8&callback=initMap";
+  document.body.appendChild(script);
+}
+
+window.onload = loadScript;
+</script>
+
+
+<div> Thanks!</div>
+{% endblock %}
