@@ -21,7 +21,7 @@ def samNormalize(I_array):
 #features: slope
 def main(zips):
 
-    featfile='../../Data/Model_Runs/Model_15sept.pkl'
+    featfile='../../../../Data/Model_Runs/Model_15sept.pkl'
     df=pd.read_pickle(featfile)
     #load model
     regzips=df['zip'].values
@@ -30,7 +30,7 @@ def main(zips):
 
     idzips=[np.where(regzips==z)[0][0] for z in zips if z in regzips]
 
-    clf = joblib.load('../../Data/Model_Runs/LinearRegression.pkl')
+    clf = joblib.load('../../../../Data/Model_Runs/LinearRegression.pkl')
 
     #build inputs
     ip1=slope[idzips]

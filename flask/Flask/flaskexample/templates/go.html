@@ -6,45 +6,33 @@
 
 
 
-<div id="map-canvas"></div>
+<div id="map"></div>
+<script>
+  var map;
+  var now={{query | safe}}
+  function initMap() {
+  var myLatLng = {lat: now[0]['lat'], lng: now[0]['lng']};
+
+  var map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 5,
+    center: myLatLng
+  });
+  for (i = 0; i < now.length; i++) {
 
 
-<script type="text/javascript">
+  var markLatLng = {lat: now[i]['lat'], lng: now[i]['lng']};
 
-function initialize() {
-  var points = {{query | safe}};
-  var sfBayCenter = new google.maps.LatLng(38, -122.237);
-  var myOptions = {
-    zoom: 8,
-    center: sfBayCenter,
-    mapTypeId: google.maps.MapTypeId.ROADMAP
-  }
-  var map = new google.maps.Map(document.getElementById("map-canvas"), myOptions);
-  var infowindow = new google.maps.InfoWindow();
-
-  for (var i=0; i<points.length; i++) {
-    // Define each point
-    var latlng = new google.maps.LatLng(points[i].lat, points[i].lng);
-
-    // Create marker
-    var marker = new google.maps.Marker({
-      position: latlng,
-      map: map,
-      title: points[i].name
-    });
+  var marker = new google.maps.Marker({
+    position: markLatLng,
+    map: map,
+    title: 'Hello World!'
+  });
 
   }
-}
-
-function loadScript() {
-  var script = document.createElement("script");
-  script.type = "text/javascript";
-  script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDTLABfemojSm9rxvt8joDFgQzS9-mKiI8&callback=initMap";
-  document.body.appendChild(script);
-}
-
-window.onload = loadScript;
+  }
 </script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDTLABfemojSm9rxvt8joDFgQzS9-mKiI8&callback=initMap"
+async defer></script>
 
 
 <div> Thanks!</div>
