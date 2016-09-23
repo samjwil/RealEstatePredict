@@ -1,6 +1,7 @@
 from flask import render_template, request, jsonify
 from flaskexample import app
 from pyzipcode import ZipCodeDatabase
+import Model_Run_22sep
 import Model_Run_15sep
 # from sqlalchemy import create_engine
 # from sqlalchemy_utils import database_exists, create_database
@@ -17,16 +18,16 @@ def index():
 def go():
     zcdb=ZipCodeDatabase()
     stateinput = request.args.get('query', '')
-    everythingOK=False
-    try:
-        everythingOK=True
-        zips=zcdb.find_zip(state=stateinput)
-        zips=[int(z.zip) for z in zips]
-    except:
-        everythingOK=False
+    everythingOK=True
+    # try:
+    #     everythingOK=True
+    #     zips=zcdb.find_zip(state=stateinput)
+    #     zips=[int(z.zip) for z in zips]
+    # except:
+    #     everythingOK=False
 
     if everythingOK:
-        predict=Model_Run_15sep.main(zips)
+        predict=Model_Run_22sep.main(stateinput)
     else:
         predict='Input not understood'
     # new= [render_template('go.html',query = item) for item in predicttown]

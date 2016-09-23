@@ -9,8 +9,9 @@ from dateutil.relativedelta import relativedelta
 from sklearn import linear_model, metrics
 from sklearn.linear_model import LinearRegression, LogisticRegression
 import pickle
+import time
 
-plt.close('all')
+# plt.close('all')
 def rank_by_increase(f):
     dPR=datetime.strptime('2018-05-01', '%Y-%m-%d')
     monthmin=29
@@ -69,16 +70,14 @@ def plot_my_buys(f,buys):
         medTS=np.array(nowJSON['medTS'])
         avgTS=np.array(nowJSON['avgTS'])
         dates=[datetime.strptime(item, '%Y-%m-%d') for item in nowJSON['time']]
-        TS=avgTS
-        ax.plot(dates,avgTS/1000,linestyle='None',marker='.')
-    ax.grid()
+
 
         city=nowJSON['city']
         state=nowJSON['state']
         state=nowJSON['state']
         medTS=np.array(nowJSON['medTS'])
         avgTS=np.array(nowJSON['avgTS'])
-        name=np.array(nowJSON['name'])
+        name.append(nowJSON['name'])
 
         geo = json.loads(nowJSON['geo'])
         # lat.append(geo[0]['geometry']['location']['lat'])
@@ -89,7 +88,7 @@ def plot_my_buys(f,buys):
         ax1.plot(dates,avgTS/1000,linestyle='None',marker='.',markersize=12)
     ax1.grid()
     ax1.set_ylabel('Price [$1000s]')
-    ax1.set_title(city+state+ ', '+ ' - Selected Weekly Real Estate Prices')
+    ax1.set_title(city+', '+state+ ' - Selected Weekly Real Estate Prices')
     return ax2, city, state, lat, lng, name
 
 
@@ -139,13 +138,16 @@ def main(city):
 
         except:
             continue
-    plotstr='/Users/samjwil/Projects/Real_Estate/Data/Figs/plot.png'
-    plt.savefig(plotstr)
-    myret={'plot_loc':plotstr, 'lats': lat,'lngs': lng, \
-            'city':city, 'state':state, 'name':name}
-    return myret
+    plotstr='plot.png'
+    plt.savefig('flaskexample/static/' + plotstr)
+    myret=[]
+    for la, ln, na in zip(lat,lng,name):
+        print na
+        temp={'plot_loc':plotstr, 'lat': la,'lng': ln, 'city':city, 'state':state, 'name':na}
+        myret.append(temp)
+    return json.dumps(myret)
 #     print stop
 
-trash=main('Portland')
+# trash=main('Portland')
 # plt.show()
-print trash
+# print trash
