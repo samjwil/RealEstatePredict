@@ -54,26 +54,25 @@ def rank_by_increase(f):
 
 def plot_my_buys(f,buys):
     print buys
-<<<<<<< HEAD
-    fig, ax = plt.subplots(figsize=(9, 4))
-=======
+
     fig, (ax1, ax2) = plt.subplots(nrows=2, figsize=(7, 6))
     lat=[]
     lng=[]
->>>>>>> BringTrulia
+    name=[]
+
     for id_, line in enumerate(f):
         if id_ not in buys:
             continue
 #         print id_
         nowJSON=json.loads(line)
-<<<<<<< HEAD
+
         medTS=np.array(nowJSON['medTS'])
         avgTS=np.array(nowJSON['avgTS'])
         dates=[datetime.strptime(item, '%Y-%m-%d') for item in nowJSON['time']]
         TS=avgTS
         ax.plot(dates,avgTS/1000,linestyle='None',marker='.')
     ax.grid()
-=======
+
         city=nowJSON['city']
         state=nowJSON['state']
         state=nowJSON['state']
@@ -92,7 +91,7 @@ def plot_my_buys(f,buys):
     ax1.set_ylabel('Price [$1000s]')
     ax1.set_title(city+state+ ', '+ ' - Selected Weekly Real Estate Prices')
     return ax2, city, state, lat, lng, name
->>>>>>> BringTrulia
+
 
 def main(city):
     filenames=filenames=os.listdir('/Users/samjwil/Projects/Real_Estate/Data/Trulia/json_old')
@@ -117,27 +116,15 @@ def main(city):
             #loop through thresholds, looking for good buys near those values
             for id_, value in enumerate(thresholds):
                 print value
-<<<<<<< HEAD
-                buy=index[np.absolute(cur[index]-value)/value < .2]#20%
-=======
+
                 buy=index[np.absolute(cur[index]-value)/value < .2]#20%a
->>>>>>> BringTrulia
+
                 #if exists
                 if buy.any():
                     #buys2 append
                     buys2=np.append(buys2,buy[np.where(~np.isnan(percGrowth[buy]))[0][0]])
             buys2=np.delete(buys2,0)
-<<<<<<< HEAD
 
-            with open('/Users/samjwil/Projects/Real_Estate/Data/Trulia/jsonfiles_wgeo/' + filename, 'r') as f:
-                plot_my_buys(f,buys2.astype(int))
-        except:
-            continue
-#     print stop
-
-main('Portland')
-plt.show()
-=======
             print buys2
             with open('/Users/samjwil/Projects/Real_Estate/Data/Trulia/jsonfiles_wgeo/' + filename, 'r') as f:
                 ax2, city, state, lat, lng, name=plot_my_buys(f,buys2.astype(int))
@@ -162,4 +149,3 @@ plt.show()
 trash=main('Portland')
 # plt.show()
 print trash
->>>>>>> BringTrulia
