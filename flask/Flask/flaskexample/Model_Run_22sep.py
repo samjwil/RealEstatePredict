@@ -93,7 +93,8 @@ def plot_my_buys(f,buys):
 
 
 def main(city):
-    filenames=filenames=os.listdir('/Users/samjwil/Projects/Real_Estate/Data/Trulia/json_old')
+    print os.getcwd()
+    filenames=os.listdir('flaskexample/Data/')
     del filenames[0]
 
     for id_, filename in enumerate(filenames):
@@ -101,7 +102,8 @@ def main(city):
             continue
     #     if id_<5:
     #         continue
-        with open('/Users/samjwil/Projects/Real_Estate/Data/Trulia/jsonfiles_wgeo/' + filename, 'r') as f:
+
+        with open('flaskexample/Data/' + filename, 'r') as f:
             #rank by percent increase
             pred, cur=rank_by_increase(f)
         pc=np.column_stack((pred, cur))
@@ -125,7 +127,7 @@ def main(city):
             buys2=np.delete(buys2,0)
 
             print buys2
-            with open('/Users/samjwil/Projects/Real_Estate/Data/Trulia/jsonfiles_wgeo/' + filename, 'r') as f:
+            with open('flaskexample/Data/' + filename, 'r') as f:
                 ax2, city, state, lat, lng, name=plot_my_buys(f,buys2.astype(int))
 
             print city+state
