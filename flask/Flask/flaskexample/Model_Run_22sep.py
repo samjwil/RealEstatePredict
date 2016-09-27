@@ -8,7 +8,6 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from sklearn import linear_model, metrics
 from sklearn.linear_model import LinearRegression, LogisticRegression
-import pickle
 import time
 
 # plt.close('all')
