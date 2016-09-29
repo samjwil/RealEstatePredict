@@ -202,6 +202,8 @@ def main(city):
 
     plotstr='valid_fig.png'
     fig.savefig('flaskexample/static/' + plotstr)
+
+    
     # plt.show()
     # make estimation
 
