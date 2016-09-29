@@ -2,6 +2,7 @@ from flask import render_template, request, jsonify
 from flaskexample import app
 #from pyzipcode import ZipCodeDatabase
 import Model_Run_22sep
+import Model_Run_29sep0
 #import Model_Run_15sep
 # from sqlalchemy import create_engine
 # from sqlalchemy_utils import database_exists, create_database
@@ -27,7 +28,7 @@ def go():
     #     everythingOK=False
 
     if everythingOK:
-        predict=Model_Run_22sep.main(input_)
+        predict=Model_Run_29sep0.main(input_)
     else:
         predict='Input not understood'
     # new= [render_template('go.html',query = item) for item in predicttown]

@@ -20,7 +20,7 @@
 
         <style>
         html, body {
-          height: 80%;
+          height: 50%;
           margin: 1;
           padding: .5;
         }
@@ -33,10 +33,11 @@
         <header>
           <h1>Optimum real estate decisions.</h1>
         </header>
+        {% block content %}
+
         <div>
           Please input a City.
         </div>
-        {% block content %}
         <form method="get" action="/go">
             <input type="text" name="query" placeholder="City Name (e.g. San Francisco)">
             <button type="submit" name="push">Submit</button>
