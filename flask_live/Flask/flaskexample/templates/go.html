@@ -1,0 +1,57 @@
+<!doctype html>
+{% extends "master.html" %}
+{% block title %} | Additional Title Info. I changed this.{% endblock %}
+{% block content %}
+
+<style>
+    #left {
+      width: 200px;
+      float: left;
+    }
+    #right {
+      margin-left: 200px;
+      /* Change this to whatever the width of your left column is*/
+    }
+    .clear {
+      clear: both;
+    }
+  </style>
+
+
+<div id="map"></div>
+<script>
+  var map;
+  var now={{query | safe}}
+  function initMap() {
+  var myLatLng = {lat: now[0]['lat'], lng: now[0]['lng']};
+  var markers=['blue_MarkerA.png','green_MarkerA.png','red_MarkerA.png']
+
+  var map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 11,
+    center: myLatLng
+  });
+  for (i = 0; i < now.length; i++) {
+
+
+  var markLatLng = {lat: now[i]['lat'], lng: now[i]['lng']};
+
+  var marker = new google.maps.Marker({
+    position: markLatLng,
+    map: map,
+    title: 'Hello World!'
+  });
+
+  }
+  }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBt-zW1COAmFDk9gSI3X3q8-bDb9Fvp5Nk&callback=initMap"
+async defer></script>
+
+<div class="image_container">
+    <center>
+     <img class = "image" src="/static/plot.png" style="width:512px;height:512px;">
+    </center>
+</div>
+
+<div> Thanks!</div>
+{% endblock %}
