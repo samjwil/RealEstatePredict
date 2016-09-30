@@ -1,0 +1,55 @@
+{% extends "index.html" %}
+
+
+{% block table%}
+
+{% endblock%}
+
+{% block c3js %}
+<div id="chart"></div>
+<script type="text/javascript">
+var chart = c3.generate({
+    bindto: '#chart',
+    data: {
+      columns: [
+        // {{ x | safe}},
+        [{{ out1 | safe}}],
+        [{{ out2 | safe}}],
+        [{{ out3 | safe}}]
+      ]
+    }
+});
+</script>
+{% endblock %}
+
+{% block mapmake %}
+<script type="text/javascript">
+$(document).ready(function(){/* google maps -----------------------------------------------------*/
+google.maps.event.addDomListener(window, 'load', initialize);
+
+function initialize() {
+
+  /* position Amsterdam */
+  var latlng = new google.maps.LatLng(52.3731, 4.8922);
+
+  var mapOptions = {
+    center: latlng,
+    scrollWheel: false,
+    zoom: 13
+  };
+
+  var marker = new google.maps.Marker({
+    position: latlng,
+    url: '/',
+    animation: google.maps.Animation.DROP
+  });
+
+  var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+  marker.setMap(map);
+
+};
+/* end google maps -----------------------------------------------------*/
+});
+</script>
+
+{% endblock %}
