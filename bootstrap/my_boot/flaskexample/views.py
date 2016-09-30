@@ -22,14 +22,15 @@ def go():
     out2 = ','.join(output['out2'])
     out3 = ','.join(output['out3'])
     lat = ','.join(output['lat'])
-    lng ','.join(output['lng'])
+    lng = ','.join(output['lng'])
     return render_template(
         'go.html',
         query = output,
         # x = x,
-        lat = lat
-        lng = lng
+        lat = lat,
+        lng = lng,
         out1 = out1,
         out2 = out2,
-        out3 = out3
+        out3 = out3,
+        city = input_
     )

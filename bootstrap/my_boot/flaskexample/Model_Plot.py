@@ -54,8 +54,8 @@ def samLinearFit(time,TS,id_,numback, deg):
 #     plt.show()
     return p
 
-def samTop(val,order):
-    num=val[~np.isnan(val)].size*.2
+def samTop(val,num):
+    num=val[~np.isnan(val)].size*num
     #remove nans from argsort
     i1=np.argsort(val)
     v1=val[i1]
@@ -66,10 +66,7 @@ def samTop(val,order):
     if id2<0:
         return i2 #edge case of too large request for non-nans
 
-    if order==-1:
-        return i2[:num]
-    if order==1:
-        return i2[id2:]
+    return i2[id2:]
 
 def samPolyEval(predtime,p):
     pred=np.zeros(p.shape[0])
@@ -107,7 +104,8 @@ def main(city):
             fulldf=pd.DataFrame()
             fullnp=pd.DataFrame()
             predactu=np.empty((1,3))
-
+            lat=[]
+            lng=[]
             for kd_, line in enumerate(f):
                 nowJSON=json.loads(line)
     #             print stop
@@ -146,7 +144,6 @@ def main(city):
     My=np.empty(len(indates))*np.NAN
     Best=np.empty(len(indates))*np.NAN
     Mean=np.empty(len(indates))*np.NAN
-
     for id_ in indates:
         if id_<52:
             continue
@@ -183,15 +180,46 @@ def main(city):
         percinc=np.divide(Next,Current)
 
         #Mine, Best, Mean
-        My[id_]=np.nanmean(percinc[samTop(percpred,1)])
-        Best[id_]=np.nanmean(percinc[samTop(percinc,1)])
+        My[id_]=np.nanmean(percinc[samTop(percpred,.2)])
+        Best[id_]=np.nanmean(percinc[samTop(percinc,.2)])
         Mean[id_]=np.nanmedian(percinc)
+
+
+    #####
+    #make Prediction
+    pf_pred=np.empty([fulldf.shape[0],deg])*np.NAN
+    jd_=-1
+    for jd_tr,row in fulldf.iterrows():
+        jd_+=1
+        if not row.values[~np.isnan(row.values)].any():
+            continue
+        #apply polyfit
+        pf_pred[jd_,:] = samLinearFit(np.asarray(indates), row.values, fulldf.shape[1], 26, deg)
+
+    pf[ignore,:]=np.NAN
+    Current[ignore]=np.NAN
+
+    mypred2=samPolyEval(predtime,pf)
+    percpred=np.divide(mypred2,Current)
+
+    index=samTop(percpred,.2)
+
+    #check thresholds
+    thr=[0 ,1e5, 5e5, 1e6, 2e6]
+    bt=np.empty(len(thr))*np.NAN
+    for id_,low in enumerate(thr[0:-1]):
+        high =thr[1:][id_]
+        avail=index[(Current[index]>low) & (Current[index]<high)]
+        bt[id_]=index[-1]
 
     # plt.close('all')
     x=['"x"'] + np.asarray(fulldates)[~np.isnan(My)].tolist()
     out1=['"My Prediction"'] + My[~np.isnan(My)].astype(str).tolist()
     out2=['"Best Option"'] + Best[~np.isnan(My)].astype(str).tolist()
     out3=['"Market Median"'] + Mean[~np.isnan(My)].astype(str).tolist()
+    lat=[str(item) for item in lat]
+    lng=[str(item) for item in lng]
+
     output={
         'x': x,
         'out1': out1,
