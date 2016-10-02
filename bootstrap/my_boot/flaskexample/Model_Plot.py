@@ -1,10 +1,6 @@
-import matplotlib
-matplotlib.use('Agg')
 
 import numpy as np
 import json
-import matplotlib.pyplot as plt
-from matplotlib.dates import DayLocator, HourLocator, DateFormatter, drange
 import os
 import pandas as pd
 from datetime import datetime

@@ -4,9 +4,28 @@
 {{ city | safe }}
 {% endblock %}
 
-{% block table%}
-
-{% endblock%}
+{% block table %}
+    <table border="1">
+        <tr>
+            <td>RESTAURANT NAME</td>
+            <td>MENU ITEM</td>
+            <td>ITEM DESCRIPTION</td>
+            <td>PRICE</td>
+            <td>ADDRESS</td>
+            <td>YELP RATING</td>
+        </tr>
+        {% for result in result_dict %}
+        <tr>
+            <td>{{ result['name']}}</td>
+            <td>{{ result['menu_item'] }}</td>
+            <td>{{ result['desc'] }}</td>
+            <td>{{ result['price'] }}</td>
+            <td>{{ result['address'] }}</td>
+            <td>{{ result['yelp_rating'] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endblock %}
 
 {% block c3js %}
 <div id="chart"></div>
