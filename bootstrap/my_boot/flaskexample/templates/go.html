@@ -7,25 +7,21 @@
 {% block table %}
     <table border="1">
         <tr>
-            <td>RESTAURANT NAME</td>
-            <td>MENU ITEM</td>
-            <td>ITEM DESCRIPTION</td>
-            <td>PRICE</td>
-            <td>ADDRESS</td>
-            <td>YELP RATING</td>
+            <td>Price Range</td>
+            <td>Neighborhood Name</td>
+            <td>Marker Color</td>
+
         </tr>
-        {% for result in result_dict %}
+
+        {% for row_index in range(result_dict['range']|count) %}
         <tr>
-            <td>{{ result['name']}}</td>
-            <td>{{ result['menu_item'] }}</td>
-            <td>{{ result['desc'] }}</td>
-            <td>{{ result['price'] }}</td>
-            <td>{{ result['address'] }}</td>
-            <td>{{ result['yelp_rating'] }}</td>
+          <td>{{ result_dict['range'][row_index] | safe }}</td>
+          <td>{{ result_dict['name'][row_index] }}</td>
+          <td bgcolor="{{ result_dict['cols'][row_index] }}"> </td>
         </tr>
         {% endfor %}
     </table>
-    {% endblock %}
+{% endblock %}
 
 {% block c3js %}
 <div id="chart"></div>
@@ -35,8 +31,8 @@ var chart = c3.generate({
     data: {
       columns: [
         // {{ x | safe}},
-        [{{ out1 | safe}}],
         [{{ out2 | safe}}],
+        [{{ out1 | safe}}],
         [{{ out3 | safe}}]
       ]
     }
@@ -53,24 +49,28 @@ function initialize() {
 
   var mylat=[{{lat | safe}}]
   var mylng=[{{lng | safe}}]
-  /* position Amsterdam */
+  var pinColor = {{mcol|tojson | safe}}
+
   var latlng = new google.maps.LatLng(mylat[0], mylng[0]);
-  var mapOptions = {
+  var map = new google.maps.Map(document.getElementById("map-canvas"), {
     center: latlng,
-    scrollWheel: false,
     zoom: 9
-  };
+  });
 
  for (i = 0; i < mylat.length; i++) {
-  var marklatlng = new google.maps.LatLng(mylat[i], mylng[i]);
+ var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=|" + pinColor[i],
+   new google.maps.Size(21, 34),
+   new google.maps.Point(0,0),
+   new google.maps.Point(10, 34));
+  var markLatLng = new google.maps.LatLng(mylat[i], mylng[i]);
   var marker = new google.maps.Marker({
-    position: marklatlng,
-    url: '/',
+    position: markLatLng,
+    map: map,
+    icon: pinImage
     // animation: google.maps.Animation.DROP
   });
   }
-  var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
-  marker.setMap(map);
+  // marker.setMap(map);
 
 };
 /* end google maps -----------------------------------------------------*/

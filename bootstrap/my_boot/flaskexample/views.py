@@ -23,6 +23,9 @@ def go():
     out3 = ','.join(output['out3'])
     lat = ','.join(output['lat'])
     lng = ','.join(output['lng'])
+    mcol = output['mcol']
+    result_dict = output['result_dict']
+    geoname=output['geoname']
     return render_template(
         'go.html',
         query = output,
@@ -32,5 +35,7 @@ def go():
         out1 = out1,
         out2 = out2,
         out3 = out3,
-        city = input_
+        city = geoname,
+        result_dict = result_dict,
+        mcol = mcol
     )
